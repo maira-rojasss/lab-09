@@ -27,6 +27,10 @@ const TaskCard = ({ task }: TaskCardProps) => {
             <p className="card-meta">
                 {new Date(task.createdAt).toLocaleString('es-CL')}
             </p>
+
+            <span className="category-badge">
+                {task.category}
+            </span>
         </div>
     )
 }
