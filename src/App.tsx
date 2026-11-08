@@ -1,9 +1,10 @@
 
 import TaskForm from './components/TaskForm'
 import TaskCard from './components/TaskCard'
+import TaskModal from './components/TaskModal'
+import CategoryFilter from './components/CategoryFilter'
 import { useTaskStore } from './store/taskStore'
 import type { TaskStatus } from './types/task'
-import TaskModal from './components/TaskModal'
 
 const columns: { status: TaskStatus; title: string }[] = [
   { status: 'to_do', title: 'Por hacer' },
@@ -13,6 +14,15 @@ const columns: { status: TaskStatus; title: string }[] = [
 
 function App() {
   const tasks = useTaskStore((state) => state.tasks)
+  const selectedCategory = useTaskStore(
+    (state) => state.selectedCategory
+  )
+
+  const filteredTasks = tasks.filter(
+    (task) =>
+      selectedCategory === null ||
+      task.category === selectedCategory
+  )
 
   return (
     <main>
@@ -20,9 +30,11 @@ function App() {
 
       <TaskForm />
 
+      <CategoryFilter />
+
       <div className="board">
         {columns.map((column) => {
-          const columnTasks = tasks.filter(
+          const columnTasks = filteredTasks.filter(
             (task) => task.status === column.status
           )
 
@@ -31,9 +43,13 @@ function App() {
               <h2>{column.title}</h2>
 
               <div className="task-list">
-                {columnTasks.map((task) => (
-                  <TaskCard key={task.id} task={task} />
-                ))}
+                {columnTasks.length === 0 ? (
+                  <p>No hay tareas en esta columna.</p>
+                ) : (
+                  columnTasks.map((task) => (
+                    <TaskCard key={task.id} task={task} />
+                  ))
+                )}
               </div>
             </section>
           )

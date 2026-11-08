@@ -103,3 +103,16 @@ body {
   font-size: 12px;
   font-weight: 600;
 }
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.category-filter button[aria-pressed="true"] {
+  background: #1a1a1a;
+  color: white;
+  font-weight: 600;
+}
