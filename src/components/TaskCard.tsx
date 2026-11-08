@@ -1,17 +1,29 @@
-// P2: tarjeta de una tarea dentro de una columna. Muestra el título y la fecha
-// de creación.
-
 
 import type { Task } from '../types/task'
+import { useTaskStore } from '../store/taskStore'
 
 interface TaskCardProps {
     task: Task
 }
 
 const TaskCard = ({ task }: TaskCardProps) => {
+    const openModal = useTaskStore((state) => state.openModal)
+
     return (
-        <div className="card">
+        <div
+            className="card"
+            onClick={() => openModal(task.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    openModal(task.id)
+                }
+            }}
+        >
             <h3 className="card-title">{task.title}</h3>
+
             <p className="card-meta">
                 {new Date(task.createdAt).toLocaleString('es-CL')}
             </p>
@@ -20,23 +32,3 @@ const TaskCard = ({ task }: TaskCardProps) => {
 }
 
 export default TaskCard
-
-
-//
-// P4: al hacer clic, llama a la acción del store que abre el modal, pasándole
-// el id de la tarea.
-//
-// P5: muestre también la categoría.
-//
-// Use las clases .card, .card-title y .card-meta del CSS.
-//
-// import type { Task } from '../types/task'
-// import { useTaskStore } from '../store/taskStore'
-//
-// interface TaskCardProps {
-//   task: Task
-// }
-//
-// const TaskCard = ({ task }: TaskCardProps) => { ... }
-//
-// export default TaskCard

@@ -3,6 +3,7 @@ import TaskForm from './components/TaskForm'
 import TaskCard from './components/TaskCard'
 import { useTaskStore } from './store/taskStore'
 import type { TaskStatus } from './types/task'
+import TaskModal from './components/TaskModal'
 
 const columns: { status: TaskStatus; title: string }[] = [
   { status: 'to_do', title: 'Por hacer' },
@@ -38,6 +39,8 @@ function App() {
           )
         })}
       </div>
+
+      <TaskModal />
     </main>
   )
 }
